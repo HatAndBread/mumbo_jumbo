@@ -60,13 +60,11 @@ const emitter = new MyEmitter();
 emitter.on('tableCreated', () => {
   console.log('HI!');
   pinMaker(); // GENERATE PIN. DELETE ME!!!!
-  setInterval(() => {
+  setInterval(function () {
     const db = new sqlite.Database('./games.db');
-    db.all(`SELECT * FROM active_games`, (err, rows) => {
-      if (err) {
-        return console.log(err);
-      }
-      console.log(rows);
+    db.run(/*sql*/ `DELETE FROM active_games WHERE date < ?`, [Date.now() - 1000 * 60 * 60 * 24], function (err) {
+      err && console.log(err);
+      console.log(`Cleaned ${this.changes} old games from the database`);
     });
     db.close();
   }, 10000);
