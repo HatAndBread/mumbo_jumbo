@@ -14,6 +14,7 @@ const allPins = () => {
     db.all(/*sql*/ `SELECT pin FROM active_games`, (err, row) => {
       resolve(row);
     });
+    db.close();
   });
 };
 
@@ -32,18 +33,22 @@ const getPin = () => {
   });
 };
 
-const pinMaker = () => {
+const pinMaker = (hostId) => {
   return new Promise(async (resolve, reject) => {
     const db = new sqlite.Database('./games.db');
     try {
       let newPin = await getPin();
       console.log(`adding pin: ${newPin}`);
-      db.run(/*sql*/ `INSERT INTO active_games(pin, date) VALUES(?, ?)`, [newPin, Date.now()], (err) => {
-        if (err) {
-          reject(err);
+      db.run(
+        /*sql*/ `INSERT INTO active_games(pin, date, host_id) VALUES(?, ?, ?)`,
+        [newPin, Date.now(), hostId],
+        (err) => {
+          if (err) {
+            reject(err);
+          }
+          db.close();
         }
-        db.close();
-      });
+      );
       resolve(newPin);
     } catch (err) {
       console.log(err);
