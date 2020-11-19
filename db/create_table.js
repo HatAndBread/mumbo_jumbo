@@ -1,8 +1,8 @@
 const sqlite = require('sqlite3').verbose();
-const emitter = require('./index').emitter;
+const emitter = require('./clean_db').emitter;
 
 function createTable() {
-  const db = new sqlite.Database('./games.db');
+  const db = new sqlite.Database('./db/games.db');
   db.serialize(() => {
     db.run(
       /*sql*/ `
@@ -32,6 +32,7 @@ function createTable() {
       pin INTEGER NOT NULL,
       story TEXT,
       current_writer TEXT NOT NULL,
+      author TEXT NOT NULL,
       FOREIGN KEY (pin)
       REFERENCES active_games (pin)
       )`);

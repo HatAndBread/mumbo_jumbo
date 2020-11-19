@@ -1,6 +1,5 @@
 const express = require('express');
-const router = express.Router();
-const dbQ = require('../db_query');
+const dbQ = require('../db/db_query');
 const randomName = require('../random_name_generator');
 
 const handlePin = async (socket, io, pin, id) => {

@@ -10,7 +10,7 @@ const numGenerator = () => {
 
 const allPins = () => {
   return new Promise((resolve, reject) => {
-    const db = new sqlite.Database('./games.db');
+    const db = new sqlite.Database('./db/games.db');
     db.all(/*sql*/ `SELECT pin FROM active_games`, (err, row) => {
       resolve(row);
     });
@@ -35,7 +35,7 @@ const getPin = () => {
 
 const pinMaker = (hostId) => {
   return new Promise(async (resolve, reject) => {
-    const db = new sqlite.Database('./games.db');
+    const db = new sqlite.Database('./db/games.db');
     try {
       let newPin = await getPin();
       console.log(`adding pin: ${newPin}`);

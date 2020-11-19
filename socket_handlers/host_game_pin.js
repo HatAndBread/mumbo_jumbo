@@ -1,5 +1,5 @@
 const pinMaker = require('../pin_maker');
-const dbQ = require('../db_query');
+const dbQ = require('../db/db_query');
 
 const hostGamePin = async (socket, io, id) => {
   const pin = await pinMaker(id);
