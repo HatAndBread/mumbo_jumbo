@@ -10,7 +10,17 @@ const gameData = {
   players: [],
   storiesRetrieved: 0,
   swapStories: function () {
-    console.log(this.players);
+    let first;
+    for (let i = 0; i < this.players.length; i++) {
+      if (i === 0) {
+        first = this.players[i].story;
+      }
+      if (this.players[i + 1]) {
+        this.players[i].story = this.players[i + 1].story;
+      } else {
+        this.players[i].story = first;
+      }
+    }
   }
 };
 
@@ -29,6 +39,7 @@ socket.on('newPlayer', (id, nickname) => {
   gameData.players.push({ nickname: nickname, id: id, story: null });
   console.log(gameData.players);
 });
+
 socket.on('storySubmit', (data) => {
   console.log(data.id, data.story);
   gameData.players.map((el, index, arr) => {
@@ -40,11 +51,8 @@ socket.on('storySubmit', (data) => {
   gameData.storiesRetrieved += 1;
   console.log(gameData.players, `stories retrieved: ${gameData.storiesRetrieved}`);
   if (gameData.storiesRetrieved === gameData.players.length) {
-    //swapstories
-    for (let i = 0; i < gameData.storiesRetrieved; i++) {
-      gameData.players[i].story = gameData.players[i - 1].story; // this is wrong dummy
-    }
-    console.log(gameData.players, `stories retrieved: ${gameData.storiesRetrieved}`);
+    gameData.swapStories();
+    socket.emit('distributeStories', gameData.players);
   } else {
     //ping missing players at interval until it works or until dropped from game
   }
