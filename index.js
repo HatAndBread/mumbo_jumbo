@@ -13,7 +13,9 @@ app.use(cors(corsOptions));
 const socketEvents = require('./socket_handlers/socket_events');
 const cleanDb = require('./db/clean_db').cleanDb;
 const host = require('./host');
+const randomWord = require('./api/random_word');
 app.use('/host', host);
+app.use('/random_word', randomWord);
 
 const server = require('http').createServer(app);
 

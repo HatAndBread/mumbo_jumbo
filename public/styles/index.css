@@ -1,0 +1,59 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  box-sizing: border-box;
+  background-color: #8b728e;
+}
+
+button {
+  font-family: 'Nunito', sans-serif;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: large;
+  background-color: snow;
+  color: #16302b;
+  padding: 5px;
+  margin-top: 10px;
+}
+
+.main_title {
+  background-color: #16302b;
+  color: snow;
+  position: inline-block;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 60px;
+  padding-top: 20px;
+  text-align: center;
+}
+@media only screen and (max-width: 600px) {
+  .main_title {
+    font-size: 6vw;
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pin_input {
+  border-radius: 10px;
+  font-size: large;
+}
+
+.pin_display {
+  font-size: 13vw;
+  color: snow;
+}
+
+#story_input {
+  border-radius: 10px;
+  font-size: large;
+}

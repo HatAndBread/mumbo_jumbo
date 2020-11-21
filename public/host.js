@@ -3,6 +3,10 @@ const socket = io('/');
 const hostButton = document.querySelector('.host_butt');
 const pinDisplay = document.querySelector('.pin_display');
 const shuffleButt = document.querySelector('.shuffle_butt');
+const startButt = document.querySelector('.start_butt');
+startButt.style.display = 'none';
+shuffleButt.style.display = 'none';
+const joinButt = document.querySelector('.join_butt');
 let userPin;
 let gamePin;
 
@@ -26,9 +30,19 @@ const gameData = {
 
 hostButton.addEventListener('click', () => {
   socket.emit('hostGetPin', socket.id);
+  hostButton.style.display = 'none';
+  joinButt.style.display = 'none';
+  startButt.style.display = 'initial';
 });
 shuffleButt.addEventListener('click', () => {
   socket.emit('shuffle', gamePin);
+});
+joinButt.addEventListener('click', () => {
+  window.location = '/live';
+});
+startButt.addEventListener('click', () => {
+  shuffleButt.style.display = 'initial';
+  startButt.style.display = 'none';
 });
 socket.on('gameCreated', (pin) => {
   pinDisplay.innerText = pin;

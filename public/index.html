@@ -4,15 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Collaborative Stories</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/index.css" />
     <script src="/socket.io/socket.io.js"></script>
     <script src="host.js" defer></script>
   </head>
   <body>
-    <div class="host_tools">
-      <h1>Host tools</h1>
-      <button class="host_butt">Host a new story</button>
-      <button class="shuffle_butt">Shuffle stories!</button>
+    <h1 class="main_title">The Collaborative Writing Machine</h1>
+    <main>
       <div class="pin_display"></div>
-    </div>
+      <button class="host_butt">🌈Host a new story🌈</button>
+      <button class="join_butt">✏️Join a story✏️</button>
+      <button class="start_butt">✏️Start writing!✏️</button>
+      <button class="shuffle_butt">🎰Shuffle stories!🎰</button>
+    </main>
   </body>
 </html>
