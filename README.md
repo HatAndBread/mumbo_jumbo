@@ -16,3 +16,7 @@
             <li>⭐️Each student receives another student's story and has to continue it.</li>
           </ul>
         </h3>
+        
+# Technical Info 🤓
+
+Made with Express, Socket IO, and plain old vanilla JavaScript on the front-end. 
