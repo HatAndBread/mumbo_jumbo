@@ -12,11 +12,11 @@
             <li>⭐️The teacher hosts a game and generates a pin number.</li>
             <li>⭐️Participants join the game using the provided pin.</li>
             <li>⭐️Students start writing a story.</li>
-            <li>⭐️The teacher shuffles the students stories.</li>
+            <li>⭐️The teacher shuffles the students' stories.</li>
             <li>⭐️Each student receives another student's story and has to continue it.</li>
           </ul>
         </h3>
         
 # Technical Info 🤓
 
-Made with Express, Socket IO, and plain old vanilla JavaScript on the front-end. 
+Made with Express, Socket IO, and plain old vanilla JavaScript on the front-end.
