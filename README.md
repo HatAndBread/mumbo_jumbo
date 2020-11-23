@@ -5,6 +5,8 @@
           is vaguely inspired by
           <a href="https://en.wikipedia.org/wiki/Surrealist_techniques">surrealist writing techniques</a>.
           <br />
+          <a href="https://mumbojumbo.glitch.me/">Try it!😃</a>
+          <br />
           <br />
           <h2>Here's how it works:</h2>
           <br />
