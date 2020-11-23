@@ -6,27 +6,31 @@
     <title>Live! Collaborative Stories</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../styles//index.css" />
+    <link rel="stylesheet" href="../styles/index.css" />
     <script src="/socket.io/socket.io.js"></script>
     <script src="live.js" defer></script>
   </head>
   <body>
-    <div class="player_tools">
-      <h1>Player Tools</h1>
-      <input class="pin_input" type="text" />
+    <h1 class="main_title">The Collaborative Writing Machine</h1>
+    <main>
+      <h2 class="nickname_display"></h2>
+      <input class="pin_input" type="text" placeholder="Game number" />
       <button class="join_butt">Join story</button>
       <br />
-      <div>
+      <div class="text_and_butts">
         <textarea
+          class="story_input"
           name="story_input"
           id="story_input"
           cols="30"
           rows="10"
           placeholder="Write your story here!"
         ></textarea>
-        <button class="noun_butt">Random noun</button>
-        <button class="adjective_butt">Random adjective</button>
+        <div class="control_butts">
+          <button class="noun_butt">Random noun</button>
+          <button class="adjective_butt">Random adjective</button>
+        </div>
       </div>
-    </div>
+    </main>
   </body>
 </html>

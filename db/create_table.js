@@ -2,7 +2,7 @@ const sqlite = require('sqlite3').verbose();
 const emitter = require('./clean_db').emitter;
 
 function createTable() {
-  const db = new sqlite.Database('./db/games.db');
+  const db = new sqlite.Database('./.data/games.db');
   db.serialize(() => {
     db.run(
       /*sql*/ `

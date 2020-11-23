@@ -4,6 +4,7 @@ const hostButton = document.querySelector('.host_butt');
 const pinDisplay = document.querySelector('.pin_display');
 const shuffleButt = document.querySelector('.shuffle_butt');
 const startButt = document.querySelector('.start_butt');
+const nicknameList = document.querySelector('.nickname_list');
 startButt.style.display = 'none';
 shuffleButt.style.display = 'none';
 const joinButt = document.querySelector('.join_butt');
@@ -14,6 +15,7 @@ const gameData = {
   players: [],
   storiesRetrieved: 0,
   swapStories: function () {
+    this.storiesRetrieved = 0;
     let first;
     for (let i = 0; i < this.players.length; i++) {
       if (i === 0) {
@@ -43,6 +45,7 @@ joinButt.addEventListener('click', () => {
 startButt.addEventListener('click', () => {
   shuffleButt.style.display = 'initial';
   startButt.style.display = 'none';
+  socket.emit('startingGame', gamePin);
 });
 socket.on('gameCreated', (pin) => {
   pinDisplay.innerText = pin;
@@ -51,6 +54,14 @@ socket.on('gameCreated', (pin) => {
 socket.on('newPlayer', (id, nickname) => {
   console.log('New player! ', id, nickname);
   gameData.players.push({ nickname: nickname, id: id, story: null });
+  const item = document.createElement('li');
+  const node = document.createTextNode(`⭐️${nickname}`);
+  item.appendChild(node);
+  item.addEventListener('click', () => {
+    console.log(nickname);
+    socket.emit('retrieveStoryProgress', id);
+  });
+  nicknameList.appendChild(item);
   console.log(gameData.players);
 });
 
@@ -70,4 +81,7 @@ socket.on('storySubmit', (data) => {
   } else {
     //ping missing players at interval until it works or until dropped from game
   }
+});
+socket.on('sendStoryProgressToHost', (id, story) => {
+  console.log('GOT a story from ' + id + ': ' + story);
 });

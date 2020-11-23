@@ -7,6 +7,7 @@ body {
   font-family: 'Nunito', sans-serif;
   box-sizing: border-box;
   background-color: #8b728e;
+  color: snow;
 }
 
 button {
@@ -18,6 +19,11 @@ button {
   color: #16302b;
   padding: 5px;
   margin-top: 10px;
+  user-select: none;
+}
+
+ul {
+  list-style: none;
 }
 
 .main_title {
@@ -29,6 +35,7 @@ button {
   width: 100vw;
   height: 60px;
   padding-top: 20px;
+  user-select: none;
   text-align: center;
 }
 @media only screen and (max-width: 600px) {
@@ -51,9 +58,37 @@ main {
 .pin_display {
   font-size: 13vw;
   color: snow;
+  user-select: none;
+}
+
+.text_and_butts {
+  display: flex;
+  flex-direction: row;
+}
+.control_butts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #story_input {
   border-radius: 10px;
   font-size: large;
+}
+
+.nickname_list {
+  color: snow;
+  font-size: larger;
+  user-select: none;
+}
+
+.nickname_list li {
+  display: inline;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.nickname_display {
+  margin: 20px;
+  user-select: none;
 }

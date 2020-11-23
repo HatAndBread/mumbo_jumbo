@@ -27,10 +27,20 @@ const socketEvents = (io) => {
       io.to(hostId).emit('storySubmit', { id: id, story: story });
     });
     socket.on('distributeStories', (players) => {
-      console.log('new story distribution!', players[0].story, players[1].story);
+      console.log('new story distribution!', players[0].story);
       players.forEach((player) => {
         io.to(player.id).emit('newStory', player.story);
       });
+    });
+    socket.on('startingGame', (pin) => {
+      socket.to(pin).emit('startWriting');
+    });
+    socket.on('retrieveStoryProgress', (id) => {
+      io.to(id).emit('retrieveStoryProgress');
+    });
+    socket.on('sendStoryProgressToHost', async (id, story, gamePin) => {
+      hostId = await getHostId(gamePin);
+      io.to(hostId).emit('sendStoryProgressToHost', id, story);
     });
   });
 };

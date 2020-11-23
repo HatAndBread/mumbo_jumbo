@@ -1,14 +1,14 @@
-const sqlite = require('sqlite3');
+const sqlite = require('sqlite3').verbose();
 
 const runDb = (sql, params) => {
-  const db = new sqlite.Database('./db/games.db');
+  const db = new sqlite.Database('./.data/games.db');
   db.run(sql, params);
   db.close();
 };
 
 const allDb = (sql, params, callback) => {
   return new Promise((resolve, reject) => {
-    const db = new sqlite.Database('./db/games.db');
+    const db = new sqlite.Database('./.data/games.db');
     try {
       db.all(sql, params, callback);
       db.close();
@@ -22,7 +22,7 @@ const allDb = (sql, params, callback) => {
 
 const getDb = (sql, params, callback) => {
   return new Promise((resolve, reject) => {
-    const db = new sqlite.Database('./db/games.db');
+    const db = new sqlite.Database('./.data/games.db');
     try {
       db.all(sql, params, callback);
       db.close();
@@ -35,7 +35,7 @@ const getDb = (sql, params, callback) => {
 };
 
 const getHostId = async (gamePin) => {
-  const db = new sqlite.Database('./db/games.db');
+  const db = new sqlite.Database('./.data/games.db');
   const hostId = await new Promise((resolve, reject) => {
     db.get(/*sql*/ `SELECT host_id FROM active_games WHERE pin = ?`, [gamePin], (err, row) => {
       err && reject(err);
