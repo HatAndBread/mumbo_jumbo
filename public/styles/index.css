@@ -1,25 +1,43 @@
 * {
   margin: 0px;
   padding: 0px;
+  box-sizing: border-box;
 }
 
 body {
   font-family: 'Nunito', sans-serif;
   box-sizing: border-box;
-  background-color: #8b728e;
-  color: snow;
+  background-color: #248232;
+  color: #fcfffc;
 }
 
+a {
+  color: #fcfffc;
+  text-decoration: none;
+  transition: color 1s;
+  font-weight: 900;
+  color: blanchedalmond;
+}
+
+a:hover {
+  color: #040f0f;
+}
 button {
+  transition: background-color 1s, color 1s;
   font-family: 'Nunito', sans-serif;
   border-radius: 10px;
   cursor: pointer;
   font-size: large;
-  background-color: snow;
-  color: #16302b;
+  background-color: #fcfffc;
+  color: #040f0f;
   padding: 5px;
   margin-top: 10px;
   user-select: none;
+}
+
+button:hover {
+  background-color: #2d3a3a;
+  color: #fcfffc;
 }
 
 ul {
@@ -27,8 +45,8 @@ ul {
 }
 
 .main_title {
-  background-color: #16302b;
-  color: snow;
+  background-color: #040f0f;
+  color: #fcfffc;
   position: inline-block;
   top: 0px;
   left: 0px;
@@ -53,11 +71,13 @@ main {
 .pin_input {
   border-radius: 10px;
   font-size: large;
+  padding: 10px;
+  font-size: 28px;
 }
 
 .pin_display {
   font-size: 13vw;
-  color: snow;
+  color: #fcfffc;
   user-select: none;
 }
 
@@ -66,18 +86,38 @@ main {
   flex-direction: row;
 }
 .control_butts {
+  position: fixed;
+  transition: right 0.3s;
+  right: -250px;
+  width: 250px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  background-color: #040f0f;
+  padding: 20px;
+  padding-bottom: 25px;
+}
+
+.close_butt {
+  position: absolute;
+  user-select: none;
+  top: 0px;
+  right: 10px;
+  color: #fcfffc;
+  cursor: pointer;
+  font-size: xx-large;
 }
 
 #story_input {
   border-radius: 10px;
   font-size: large;
+  width: 80vw;
+  height: 60vh;
+  margin: 20px;
 }
 
 .nickname_list {
-  color: snow;
+  color: #fcfffc;
   font-size: larger;
   user-select: none;
 }
@@ -89,6 +129,22 @@ main {
 }
 
 .nickname_display {
-  margin: 20px;
   user-select: none;
+}
+
+.story_view {
+  position: fixed;
+  top: 100vh;
+  width: 100vw;
+  height: 100vh;
+  background-color: #040f0f;
+  color: #fcfffc;
+  font-size: x-large;
+  padding: 15px;
+  transition: top 0.3s;
+}
+
+.explanation {
+  width: 80vw;
+  text-align: center;
 }

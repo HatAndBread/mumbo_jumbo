@@ -2,13 +2,26 @@ const socket = io('/');
 
 const joinButton = document.querySelector('.join_butt');
 const nounButt = document.querySelector('.noun_butt');
+const nameButt = document.querySelector('.name_butt');
+const placeButt = document.querySelector('.place_butt');
+const adverbButt = document.querySelector('.adverb_butt');
 const adjectiveButt = document.querySelector('.adjective_butt');
+const intransitiveButt = document.querySelector('.intransitive_butt');
+const transitiveButt = document.querySelector('.transitive_butt');
+const pinForm = document.querySelector('.pin_form');
 const pinInput = document.querySelector('.pin_input');
+pinInput.focus();
+pinForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  submitPin();
+});
+const writingToolsButt = document.querySelector('.writing_tools_butt');
+const closeButt = document.querySelector('.close_butt');
 const storyInput = document.querySelector('.story_input');
 const nicknameDisplay = document.querySelector('.nickname_display');
+const controlButts = document.querySelector('.control_butts');
 storyInput.style.display = 'none';
-nounButt.style.display = 'none';
-adjectiveButt.style.display = 'none';
+writingToolsButt.style.display = 'none';
 
 const data = {
   gamePin: null,
@@ -17,23 +30,39 @@ const data = {
 let gamePin;
 let story = '';
 
-joinButton.addEventListener('click', () => {
+const getWord = async (type) => {
+  const res = await fetch(`/random_word/${type}`);
+  let word = await res.json();
+  word = word.word;
+  data.story[data.story.length - 1] === ' ' ? (data.story += word) : (data.story += ' ' + word);
+  storyInput.value = data.story;
+};
+
+const submitPin = () => {
+  joinButton.style.display = 'none';
   socket.emit('submitPin', data.gamePin, socket.id);
-  joinButton.style.display = 'initial';
+};
+joinButton.addEventListener('click', submitPin);
+nounButt.addEventListener('click', () => {
+  getWord('noun');
 });
-nounButt.addEventListener('click', async () => {
-  const res = await fetch('/random_word/noun');
-  let word = await res.json();
-  word = word.word;
-  data.story[data.story.length - 1] === ' ' ? (data.story += word) : (data.story += ' ' + word);
-  storyInput.value = data.story;
+adjectiveButt.addEventListener('click', () => {
+  getWord('adjective');
 });
-adjectiveButt.addEventListener('click', async () => {
-  const res = await fetch('/random_word/adjective');
-  let word = await res.json();
-  word = word.word;
-  data.story[data.story.length - 1] === ' ' ? (data.story += word) : (data.story += ' ' + word);
-  storyInput.value = data.story;
+placeButt.addEventListener('click', () => {
+  getWord('place');
+});
+nameButt.addEventListener('click', () => {
+  getWord('name');
+});
+adverbButt.addEventListener('click', () => {
+  getWord('adverb');
+});
+intransitiveButt.addEventListener('click', () => {
+  getWord('intransitive');
+});
+transitiveButt.addEventListener('click', () => {
+  getWord('transitive');
 });
 pinInput.addEventListener('input', (e) => {
   data.gamePin = e.target.value;
@@ -41,6 +70,13 @@ pinInput.addEventListener('input', (e) => {
 storyInput.addEventListener('input', (e) => {
   data.story = e.target.value;
   console.log(data.story);
+});
+closeButt.addEventListener('click', () => {
+  controlButts.style.right = '-250px';
+});
+writingToolsButt.addEventListener('click', () => {
+  console.log('clicked!');
+  controlButts.style.right = '0px';
 });
 socket.on('notExist', () => {
   alert("That game doesn't exist. Please try again. 😭");
@@ -61,10 +97,19 @@ socket.on('newStory', (story) => {
   storyInput.value = story;
 });
 socket.on('startWriting', () => {
+  writingToolsButt.style.display = 'initial';
   storyInput.style.display = 'initial';
-  nounButt.style.display = 'initial';
-  adjectiveButt.style.display = 'initial';
+  storyInput.focus();
+  controlButts.style.display = 'flex';
+  controlButts.style.flexDirection = 'column';
 });
 socket.on('retrieveStoryProgress', () => {
   socket.emit('sendStoryProgressToHost', socket.id, data.story, data.gamePin);
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.value !== 'tools') {
+    controlButts.style.right = '-250px';
+    storyInput.focus();
+  }
 });

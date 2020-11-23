@@ -11,12 +11,16 @@
     <script src="live.js" defer></script>
   </head>
   <body>
-    <h1 class="main_title">The Collaborative Writing Machine</h1>
+    <h1 class="main_title">Mumbo Jumbo Live</h1>
     <main>
       <h2 class="nickname_display"></h2>
-      <input class="pin_input" type="text" placeholder="Game number" />
+      <br />
+      <form class="pin_form">
+        <input class="pin_input" type="text" placeholder="Game number" />
+      </form>
       <button class="join_butt">Join story</button>
       <br />
+      <button class="writing_tools_butt" value="tools">✏️Writing Tools🛠</button>
       <div class="text_and_butts">
         <textarea
           class="story_input"
@@ -26,10 +30,16 @@
           rows="10"
           placeholder="Write your story here!"
         ></textarea>
-        <div class="control_butts">
-          <button class="noun_butt">Random noun</button>
-          <button class="adjective_butt">Random adjective</button>
-        </div>
+      </div>
+      <div class="control_butts">
+        <div class="close_butt">×</div>
+        <button class="noun_butt">random noun</button>
+        <button class="adjective_butt">random adjective</button>
+        <button class="name_butt">random name</button>
+        <button class="place_butt">random place</button>
+        <button class="adverb_butt">random adverb</button>
+        <button class="intransitive_butt">random intransitive verb</button>
+        <button class="transitive_butt">random transitive verb</button>
       </div>
     </main>
   </body>

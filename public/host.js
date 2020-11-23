@@ -5,14 +5,24 @@ const pinDisplay = document.querySelector('.pin_display');
 const shuffleButt = document.querySelector('.shuffle_butt');
 const startButt = document.querySelector('.start_butt');
 const nicknameList = document.querySelector('.nickname_list');
+const storyView = document.querySelector('.story_view');
+const storyText = document.querySelector('.story_text');
+const saveButt = document.querySelector('.save_butt');
+const printButt = document.querySelector('.print_butt');
+const explanation = document.querySelector('.explanation');
 startButt.style.display = 'none';
 shuffleButt.style.display = 'none';
 const joinButt = document.querySelector('.join_butt');
 let userPin;
 let gamePin;
 
+document.addEventListener('click', (e) => {
+  e.target.id === 'story_view' || e.target.id === 'story_text' ? undefined : (storyView.style.top = '100vh');
+});
+
 const gameData = {
   players: [],
+  storyUnderReview: '',
   storiesRetrieved: 0,
   swapStories: function () {
     this.storiesRetrieved = 0;
@@ -31,10 +41,11 @@ const gameData = {
 };
 
 hostButton.addEventListener('click', () => {
-  socket.emit('hostGetPin', socket.id);
   hostButton.style.display = 'none';
   joinButt.style.display = 'none';
   startButt.style.display = 'initial';
+  explanation.remove();
+  socket.emit('hostGetPin', socket.id);
 });
 shuffleButt.addEventListener('click', () => {
   socket.emit('shuffle', gamePin);
@@ -42,10 +53,36 @@ shuffleButt.addEventListener('click', () => {
 joinButt.addEventListener('click', () => {
   window.location = '/live';
 });
+printButt.addEventListener('click', () => {
+  let newWindow = window.open('', 'printwindow', 'status=1,width=300,height=250');
+  newWindow.document.write('<html><head><title>Print Me</title></head>');
+  newWindow.document.write('<body onafterprint="self.close()">');
+  newWindow.document.write(`<p>${gameData.storyUnderReview}</p>`);
+  newWindow.document.write('</body><script>window.print()</script></html>');
+});
+saveButt.addEventListener('click', async () => {
+  const raw = await fetch('/random_word/sentence');
+  const saveTitle = await raw.json();
+  console.log(saveTitle);
+  let element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(gameData.storyUnderReview));
+  element.setAttribute('download', saveTitle.word);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+});
 startButt.addEventListener('click', () => {
-  shuffleButt.style.display = 'initial';
-  startButt.style.display = 'none';
-  socket.emit('startingGame', gamePin);
+  if (gameData.players.length > 0) {
+    shuffleButt.style.display = 'initial';
+    startButt.style.display = 'none';
+    socket.emit('startingGame', gamePin);
+  } else {
+    alert('At least one writer must be signed in to start 😇✨');
+  }
 });
 socket.on('gameCreated', (pin) => {
   pinDisplay.innerText = pin;
@@ -83,5 +120,7 @@ socket.on('storySubmit', (data) => {
   }
 });
 socket.on('sendStoryProgressToHost', (id, story) => {
-  console.log('GOT a story from ' + id + ': ' + story);
+  gameData.storyUnderReview = story;
+  storyText.innerText = story;
+  storyView.style.top = '50vh';
 });
