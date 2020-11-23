@@ -5,22 +5,21 @@
 }
 
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Poppins', sans-serif;
   box-sizing: border-box;
-  background-color: #248232;
-  color: #fcfffc;
+  background-color: #f6efa6;
+  color: #040f0f;
 }
 
 a {
-  color: #fcfffc;
+  color: #66b3ba;
   text-decoration: none;
   transition: color 1s;
   font-weight: 900;
-  color: blanchedalmond;
 }
 
 a:hover {
-  color: #040f0f;
+  color: #8eb19d;
 }
 button {
   transition: background-color 1s, color 1s;
@@ -28,7 +27,7 @@ button {
   border-radius: 10px;
   cursor: pointer;
   font-size: large;
-  background-color: #fcfffc;
+  background-color: #f0d2d1;
   color: #040f0f;
   padding: 5px;
   margin-top: 10px;
@@ -36,7 +35,7 @@ button {
 }
 
 button:hover {
-  background-color: #2d3a3a;
+  background-color: #66b3ba;
   color: #fcfffc;
 }
 
@@ -45,7 +44,7 @@ ul {
 }
 
 .main_title {
-  background-color: #040f0f;
+  background-color: #42cafd;
   color: #fcfffc;
   position: inline-block;
   top: 0px;
@@ -77,7 +76,7 @@ main {
 
 .pin_display {
   font-size: 13vw;
-  color: #fcfffc;
+  color: #040f0f;
   user-select: none;
 }
 
@@ -93,7 +92,7 @@ main {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #040f0f;
+  background-color: #42cafd;
   padding: 20px;
   padding-bottom: 25px;
 }
@@ -117,7 +116,7 @@ main {
 }
 
 .nickname_list {
-  color: #fcfffc;
+  color: #040f0f;
   font-size: larger;
   user-select: none;
 }
@@ -137,7 +136,8 @@ main {
   top: 100vh;
   width: 100vw;
   height: 100vh;
-  background-color: #040f0f;
+  background-color: #42cafd;
+  opacity: 0.9;
   color: #fcfffc;
   font-size: x-large;
   padding: 15px;
