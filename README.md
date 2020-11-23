@@ -3,7 +3,7 @@
 <h3>
           Mumbo Jumbo is a collaborative writing game for stimulating creativity in language or writing classrooms. It
           is vaguely inspired by
-          <a href="https://en.wikipedia.org/wiki/Surrealist_techniques">surrealist writing techniques</a>.
+          <a href="https://en.wikipedia.org/wiki/Surrealist_techniques" target="_blank">surrealist writing techniques</a>.
           <br />
           <br />
           <a href="https://mumbojumbo.glitch.me/">Try it!😃</a>
