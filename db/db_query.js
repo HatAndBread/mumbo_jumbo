@@ -46,4 +46,27 @@ const getHostId = async (gamePin) => {
   return hostId;
 };
 
-module.exports = { run: runDb, all: allDb, get: getDb, getHostId: getHostId };
+const getPinFromUserId = async (id) => {
+  const db = new sqlite.Database('./.data/games.db');
+  const pin = await new Promise((resolve, reject) => {
+    db.get(
+      /*sql*/ `SELECT p.game_pin, p.name, a.host_id
+              FROM players p JOIN active_games a
+              ON p.game_pin = a.pin
+              AND p.socket_id = ?`,
+      [id],
+      (err, row) => {
+        err && reject(err);
+        if (row) {
+          resolve(row);
+        } else {
+          resolve('user not connected to game');
+        }
+      }
+    );
+  });
+  db.close();
+  return pin;
+};
+
+module.exports = { run: runDb, all: allDb, get: getDb, getHostId: getHostId, getPinFromUserId: getPinFromUserId };

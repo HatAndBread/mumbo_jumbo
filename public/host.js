@@ -10,6 +10,9 @@ const storyText = document.querySelector('.story_text');
 const saveButt = document.querySelector('.save_butt');
 const printButt = document.querySelector('.print_butt');
 const explanation = document.querySelector('.explanation');
+const disconnectText = document.querySelector('.disconnect_text');
+const disconnectBox = document.querySelector('.disconnect_box');
+const continueWithoutButt = document.querySelector('.continue_without_butt');
 startButt.style.display = 'none';
 shuffleButt.style.display = 'none';
 const joinButt = document.querySelector('.join_butt');
@@ -24,6 +27,7 @@ const gameData = {
   players: [],
   storyUnderReview: '',
   storiesRetrieved: 0,
+  disconnectedPlayerIds: [],
   swapStories: function () {
     this.storiesRetrieved = 0;
     let first;
@@ -84,6 +88,21 @@ startButt.addEventListener('click', () => {
     alert('At least one writer must be signed in to start 😇✨');
   }
 });
+continueWithoutButt.addEventListener('click', () => {
+  disconnectBox.style.right = '-300px';
+  for (let i = 0; i < gameData.players.length; i++) {
+    for (let j = 0; j < gameData.disconnectedPlayerIds; j++) {
+      if (gameData.players[i].id === gameData.disconnectedPlayerIds[j]) {
+        gameData.players.splice(i, 1);
+        console.log('game data players: ', gameData.players);
+        gameData.disconnectedPlayerIds.splice(j, 1);
+        let node = document.getElementById(gameData.players[i].id);
+        node.parentNode.removeChild(node);
+        break;
+      }
+    }
+  }
+});
 socket.on('gameCreated', (pin) => {
   pinDisplay.innerText = pin;
   gamePin = pin;
@@ -98,6 +117,7 @@ socket.on('newPlayer', (id, nickname) => {
     console.log(nickname);
     socket.emit('retrieveStoryProgress', id);
   });
+  item.id = id;
   nicknameList.appendChild(item);
   console.log(gameData.players);
 });
@@ -123,4 +143,11 @@ socket.on('sendStoryProgressToHost', (id, story) => {
   gameData.storyUnderReview = story;
   storyText.innerText = story;
   storyView.style.top = '50vh';
+});
+socket.on('playerDisconnected', (name, id) => {
+  gameData.disconnectedPlayerIds.push(id);
+  console.log(`ON NO ${name} disconnected! id: ${id}`);
+  continueWithoutButt.innerText = `Continue without ${name}`;
+  disconnectText.innerText = `Oh no! ${name} disconnected! 😢`;
+  disconnectBox.style.right = '0px';
 });

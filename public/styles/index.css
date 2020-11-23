@@ -50,7 +50,7 @@ ul {
   top: 0px;
   left: 0px;
   width: 100vw;
-  height: 60px;
+  height: 100px;
   padding-top: 20px;
   user-select: none;
   text-align: center;
@@ -147,4 +147,18 @@ main {
 .explanation {
   width: 80vw;
   text-align: center;
+}
+
+.disconnect_box {
+  position: fixed;
+  top: 100px;
+  right: -300px;
+  width: 300px;
+  height: 100vh;
+  background-color: #42cafd;
+  opacity: 0.9;
+  color: #fcfffc;
+  font-size: large;
+  padding: 15px;
+  transition: right 0.3s;
 }
