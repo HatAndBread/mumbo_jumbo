@@ -4,39 +4,42 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mumbo Jumbo Host</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Nerko+One&family=Poppins&display=swap" rel="stylesheet" />
-
     <link rel="stylesheet" href="styles/index.css" />
     <script src="/socket.io/socket.io.js"></script>
     <script src="host.js" defer></script>
   </head>
   <body>
-    <h1 class="main_title">Mumbo Jumbo</h1>
+    <div class="main_title">
+      <div class="rejoin_link">Accidentally logged out?<br />Rejoin a story</div>
+      <h1 class="logo">Mumbo Jumbo</h1>
+    </div>
     <main>
       <div class="explanation">
         <br />
-        <h2>What is Mumbo Jumbo? 🧐</h2>
-        <br />
-        <h3>
-          Mumbo Jumbo is a collaborative writing game for stimulating creativity in language or writing classrooms. It
-          is vaguely inspired by
-          <a href="https://en.wikipedia.org/wiki/Surrealist_techniques" target="_blank">surrealist writing techniques</a
-          >.
-          <br />
-          <br />
-          <h2>Here's how it works:</h2>
-          <br />
-          <ul class="how_to_play">
-            <li>🌈The teacher hosts a game and generates a pin number.</li>
-            <li>🌈Participants join the game using the provided pin.</li>
-            <li>🌈Students start writing a story.</li>
-            <li>🌈The teacher shuffles the students' stories.</li>
-            <li>🌈Each student receives another student's story and has to continue it.</li>
-          </ul>
-        </h3>
+        <div class="card_container">
+          <div class="card what">
+            <h2>What is Mumbo Jumbo? 🧐</h2>
+            <br />
+            <h3>
+              Mumbo Jumbo is a collaborative writing game for stimulating creativity in language or writing classrooms.
+              It is vaguely inspired by
+              <a href="https://en.wikipedia.org/wiki/Surrealist_techniques" target="_blank"
+                >surrealist writing techniques</a
+              >.
+            </h3>
+          </div>
+          <div class="card how">
+            <h2>Here's how it works:</h2>
+            <br />
+            <ul class="how_to_play">
+              <li>🌈The teacher hosts a game and generates a pin number.</li>
+              <li>🌈Participants join the game using the provided pin.</li>
+              <li>🌈Students start writing a story.</li>
+              <li>🌈The teacher shuffles the students' stories.</li>
+              <li>🌈Each student receives another student's story and has to continue it.</li>
+            </ul>
+          </div>
+        </div>
       </div>
       <div class="pin_display"></div>
       <div class="nickname_display">
@@ -54,7 +57,16 @@
     </div>
     <div class="disconnect_box">
       <div class="disconnect_text"></div>
-      <button class="continue_without_butt">Continue without</button>
+    </div>
+    <div class="rejoin_box">
+      <div class="rejoin_closer">×</div>
+      <form class="rejoin_form">
+        <label for="rejoin_pin_input">Story pin number: </label>
+        <input class="text_input" type="text" name="rejoin_pin_input" id="rejoin_pin_input" />
+        <label for="rejoin_nickname_input">Nickname: </label>
+        <input class="text_input" type="text" name="rejoin_nickname_input" id="rejoin_nickname_input" />
+        <button class="rejoin_butt">Rejoin</button>
+      </form>
     </div>
   </body>
 </html>

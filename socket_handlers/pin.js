@@ -14,8 +14,8 @@ const handlePin = async (socket, io, pin, id) => {
         false,
         nickname
       ]);
-      io.to(id).emit('pinOK', nickname);
       const hostId = await dbQ.getHostId(pin);
+      io.to(id).emit('pinOK', nickname, hostId);
       io.to(hostId).emit('newPlayer', id, nickname);
       socket.join(pin);
     }

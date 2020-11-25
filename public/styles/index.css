@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
 * {
   margin: 0px;
   padding: 0px;
@@ -5,37 +7,38 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Varela Round', sans-serif;
   box-sizing: border-box;
-  background-color: #f6efa6;
-  color: #040f0f;
+  background-color: #c5dcf9;
+  color: #05061a;
 }
 
 a {
-  color: #66b3ba;
+  color: #2d325d;
   text-decoration: none;
   transition: color 1s;
   font-weight: 900;
 }
 
 a:hover {
-  color: #8eb19d;
+  color: #05061a;
 }
 button {
   transition: background-color 1s, color 1s;
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Varela Round', sans-serif;
   border-radius: 10px;
   cursor: pointer;
   font-size: large;
-  background-color: #f0d2d1;
-  color: #040f0f;
+  background-color: #8483c7;
+  border-color: #4c67c9;
+  color: snow;
   padding: 5px;
   margin-top: 10px;
   user-select: none;
 }
 
 button:hover {
-  background-color: #66b3ba;
+  background-color: #4c67c9;
   color: #fcfffc;
 }
 
@@ -44,8 +47,8 @@ ul {
 }
 
 .main_title {
-  background-color: #42cafd;
-  color: #fcfffc;
+  background-color: #2d325d;
+  color: snow;
   position: inline-block;
   top: 0px;
   left: 0px;
@@ -55,10 +58,37 @@ ul {
   user-select: none;
   text-align: center;
 }
-@media only screen and (max-width: 600px) {
-  .main_title {
-    font-size: 6vw;
-  }
+
+.rejoin_link {
+  position: absolute;
+  right: 16px;
+  cursor: pointer;
+}
+
+.rejoin_box {
+  transition: top 1s;
+  height: 260px;
+  top: -260px;
+  right: 50vw;
+  left: 25vw;
+  right: 25vw;
+  position: fixed;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #4c67c9;
+  color: snow;
+}
+
+.rejoin_box form {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.rejoin_closer {
+  position: relative;
+  cursor: pointer;
 }
 
 main {
@@ -68,15 +98,24 @@ main {
 }
 
 .pin_input {
+  font-family: 'Varela Round', sans-serif;
   border-radius: 10px;
   font-size: large;
   padding: 10px;
   font-size: 28px;
 }
 
+.text_input {
+  font-family: 'Varela Round', sans-serif;
+  border-radius: 10px;
+  font-size: large;
+  padding: 10px;
+  font-size: 22px;
+}
+
 .pin_display {
   font-size: 13vw;
-  color: #040f0f;
+  color: #05061a;
   user-select: none;
 }
 
@@ -92,7 +131,7 @@ main {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #42cafd;
+  background-color: #2d325d;
   padding: 20px;
   padding-bottom: 25px;
 }
@@ -102,12 +141,13 @@ main {
   user-select: none;
   top: 0px;
   right: 10px;
-  color: #fcfffc;
+  color: snow;
   cursor: pointer;
   font-size: xx-large;
 }
 
 #story_input {
+  font-family: 'Varela Round', sans-serif;
   border-radius: 10px;
   font-size: large;
   width: 80vw;
@@ -116,7 +156,7 @@ main {
 }
 
 .nickname_list {
-  color: #040f0f;
+  color: #05061a;
   font-size: larger;
   user-select: none;
 }
@@ -135,12 +175,13 @@ main {
   position: fixed;
   top: 100vh;
   width: 100vw;
-  height: 100vh;
-  background-color: #42cafd;
+  height: 50vh;
+  background-color: #2d325d;
   opacity: 0.9;
-  color: #fcfffc;
+  color: snow;
   font-size: x-large;
   padding: 15px;
+  overflow: scroll;
   transition: top 0.3s;
 }
 
@@ -155,10 +196,35 @@ main {
   right: -300px;
   width: 300px;
   height: 100vh;
-  background-color: #42cafd;
+  background-color: #2d325d;
   opacity: 0.9;
-  color: #fcfffc;
+  color: snow;
   font-size: large;
   padding: 15px;
   transition: right 0.3s;
+}
+
+.card_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 420px;
+  background-color: #85a1f2;
+  color: snow;
+  margin: 8px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+@media only screen and (max-width: 600px) {
+  .main_title .logo {
+    font-size: 6vw;
+  }
+  .card {
+    width: 280px;
+  }
 }

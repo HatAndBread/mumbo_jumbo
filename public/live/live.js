@@ -25,10 +25,10 @@ writingToolsButt.style.display = 'none';
 
 const data = {
   gamePin: null,
-  story: ''
+  story: '',
+  nickname: '',
+  hostId: null
 };
-let gamePin;
-let story = '';
 
 const getWord = async (type) => {
   const res = await fetch(`/random_word/${type}`);
@@ -82,14 +82,16 @@ socket.on('notExist', () => {
   alert("That game doesn't exist. Please try again. 😭");
   joinButton.style.display = 'initial';
 });
-socket.on('pinOK', (nickname) => {
+socket.on('pinOK', (nickname, hostId) => {
+  data.nickname = nickname;
+  data.hostId = hostId;
   console.log('Yay! it worked! Your nickname is ' + nickname);
   nicknameDisplay.innerText = `Your username is: ${nickname}`;
   joinButton.style.display = 'none';
   pinInput.style.display = 'none';
 });
 socket.on('retrieveStory', () => {
-  socket.emit('turnInStory', socket.id, data.story, data.gamePin);
+  socket.emit('turnInStory', socket.id, data.story, data.gamePin, data.hostId);
 });
 socket.on('newStory', (story) => {
   console.log('this is your new story!: ', story);
