@@ -12,13 +12,6 @@ const printButt = document.querySelector('.print_butt');
 const explanation = document.querySelector('.explanation');
 const disconnectText = document.querySelector('.disconnect_text');
 const disconnectBox = document.querySelector('.disconnect_box');
-const rejoinLink = document.querySelector('.rejoin_link');
-const rejoinBox = document.querySelector('.rejoin_box');
-const rejoinCloser = document.querySelector('.rejoin_closer');
-const rejoinButt = document.querySelector('.rejoin_butt');
-const rejoinForm = document.querySelector('.rejoin_form');
-const rejoinPinInput = document.getElementById('rejoin_pin_input');
-const rejoinNicknameInput = document.getElementById('rejoin_nickname_input');
 
 startButt.style.display = 'none';
 shuffleButt.style.display = 'none';
@@ -37,6 +30,7 @@ const gameData = {
   disconnectedPlayerIds: [],
   rejoinPin: '',
   rejoinNickname: '',
+  rejoinButtGarbage: [],
   swapStories: function () {
     this.storiesRetrieved = 0;
     let first;
@@ -97,33 +91,6 @@ startButt.addEventListener('click', () => {
     alert('At least one writer must be signed in to start 😇✨');
   }
 });
-rejoinCloser.addEventListener('click', () => {
-  rejoinBox.style.top = '-260px';
-});
-rejoinLink.addEventListener('click', () => {
-  console.log('rejoin!');
-  rejoinBox.style.top = '40vh';
-});
-rejoinButt.addEventListener('click', () => {
-  rejoinBox.style.top = '-260px';
-});
-rejoinForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  console.log(e);
-  if (!gameData.rejoinNickname || !gameData.rejoinPin) {
-    alert('Please enter a valid nickname and story pin number');
-  } else {
-    console.log('submittin');
-  }
-});
-rejoinNicknameInput.addEventListener('input', (e) => {
-  gameData.rejoinNickname = e.target.value;
-  console.log(gameData.rejoinNickname);
-});
-rejoinPinInput.addEventListener('input', (e) => {
-  gameData.rejoinPin = e.target.value;
-  console.log(gameData.rejoinPin);
-});
 
 socket.on('gameCreated', (pin) => {
   pinDisplay.innerText = pin;
@@ -173,7 +140,7 @@ socket.on('playerDisconnected', (name, id) => {
   disconnectBox.style.right = '0px';
   const butt = document.createElement('button');
   butt.innerText = `Continue without ${name}`;
-  butt.id = id;
+  butt.id = name;
   butt.addEventListener('click', () => {
     gameData.disconnectedPlayerIds.length === 1 ? (disconnectBox.style.right = '-300px') : null;
     for (let i = 0; i < gameData.players.length; i++) {
@@ -194,5 +161,31 @@ socket.on('playerDisconnected', (name, id) => {
       }
     }
   });
+  gameData.rejoinButtGarbage.push(butt);
   disconnectBox.appendChild(butt);
+});
+socket.on('relogin', (nickname, playerId) => {
+  console.log(`${nickname} has logged back in with id ${playerId}`);
+  for (let i = 0; i < gameData.players.length; i++) {
+    if (gameData.players[i].nickname === nickname) {
+      for (let j = 0; j < gameData.rejoinButtGarbage.length; j++) {
+        if (gameData.rejoinButtGarbage[j].id === nickname) {
+          disconnectBox.removeChild(gameData.rejoinButtGarbage[j]);
+          disconnectText.innerText = '';
+          gameData.rejoinButtGarbage.splice(j, 1);
+          break;
+        }
+      }
+      for (let j = 0; j < gameData.disconnectedPlayerIds.length; j++) {
+        if (gameData.disconnectedPlayerIds[j] === gameData.players[i].id) {
+          gameData.disconnectedPlayerIds.splice(j, 1);
+          break;
+        }
+      }
+      gameData.players[i].id = playerId;
+      gameData.disconnectedPlayerIds.length === 0 ? (disconnectBox.style.right = '-300px') : null;
+      console.log(gameData);
+      break;
+    }
+  }
 });

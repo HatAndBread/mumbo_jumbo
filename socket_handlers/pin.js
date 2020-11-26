@@ -1,4 +1,3 @@
-const express = require('express');
 const dbQ = require('../db/db_query');
 const randomName = require('../random_name_generator');
 
@@ -14,10 +13,12 @@ const handlePin = async (socket, io, pin, id) => {
         false,
         nickname
       ]);
+      let gameStarted = await dbQ.checkIfGameStarted(pin);
+      console.log('GAME STARTED RESULT: ', gameStarted);
       const hostId = await dbQ.getHostId(pin);
-      io.to(id).emit('pinOK', nickname, hostId);
-      io.to(hostId).emit('newPlayer', id, nickname);
       socket.join(pin);
+      io.to(hostId).emit('newPlayer', id, nickname);
+      gameStarted ? io.to(id).emit('joinedStartedGame', nickname, hostId) : io.to(id).emit('pinOK', nickname, hostId);
     }
   });
 };

@@ -40,8 +40,8 @@ const pinMaker = (hostId) => {
       let newPin = await getPin();
       console.log(`adding pin: ${newPin}`);
       db.run(
-        /*sql*/ `INSERT INTO active_games(pin, date, host_id) VALUES(?, ?, ?)`,
-        [newPin, Date.now(), hostId],
+        /*sql*/ `INSERT INTO active_games(pin, date, host_id, started) VALUES(?, ?, ?, ?)`,
+        [newPin, Date.now(), hostId, false],
         (err) => {
           if (err) {
             reject(err);

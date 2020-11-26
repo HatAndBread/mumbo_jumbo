@@ -9,7 +9,10 @@
     <script src="live.js" defer></script>
   </head>
   <body>
-    <h1 class="main_title">Mumbo Jumbo Live</h1>
+    <div class="main_title">
+      <div class="rejoin_link">Accidentally logged out?<br />Rejoin a story</div>
+      <h1 class="logo">Mumbo Jumbo</h1>
+    </div>
     <main>
       <h2 class="nickname_display"></h2>
       <br />
@@ -38,6 +41,16 @@
         <button class="adverb_butt">random adverb</button>
         <button class="intransitive_butt">random intransitive verb</button>
         <button class="transitive_butt">random transitive verb</button>
+      </div>
+      <div class="rejoin_box">
+        <div class="rejoin_closer">×</div>
+        <form class="rejoin_form">
+          <label for="rejoin_pin_input">Story pin number: </label>
+          <input class="text_input" type="text" name="rejoin_pin_input" id="rejoin_pin_input" />
+          <label for="rejoin_nickname_input">Nickname: </label>
+          <input class="text_input" type="text" name="rejoin_nickname_input" id="rejoin_nickname_input" />
+          <button class="rejoin_butt">Rejoin</button>
+        </form>
       </div>
     </main>
   </body>

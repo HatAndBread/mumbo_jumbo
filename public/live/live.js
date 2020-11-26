@@ -10,6 +10,14 @@ const intransitiveButt = document.querySelector('.intransitive_butt');
 const transitiveButt = document.querySelector('.transitive_butt');
 const pinForm = document.querySelector('.pin_form');
 const pinInput = document.querySelector('.pin_input');
+const rejoinLink = document.querySelector('.rejoin_link');
+const rejoinBox = document.querySelector('.rejoin_box');
+const rejoinCloser = document.querySelector('.rejoin_closer');
+const rejoinButt = document.querySelector('.rejoin_butt');
+const rejoinForm = document.querySelector('.rejoin_form');
+const rejoinPinInput = document.getElementById('rejoin_pin_input');
+const rejoinNicknameInput = document.getElementById('rejoin_nickname_input');
+
 pinInput.focus();
 pinForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -27,7 +35,9 @@ const data = {
   gamePin: null,
   story: '',
   nickname: '',
-  hostId: null
+  hostId: null,
+  rejoinNickname: null,
+  rejoinPin: null
 };
 
 const getWord = async (type) => {
@@ -78,17 +88,58 @@ writingToolsButt.addEventListener('click', () => {
   console.log('clicked!');
   controlButts.style.right = '0px';
 });
+
+rejoinCloser.addEventListener('click', () => {
+  rejoinBox.style.top = '-260px';
+});
+rejoinLink.addEventListener('click', () => {
+  rejoinBox.style.top = '40vh';
+  rejoinPinInput.focus();
+});
+rejoinButt.addEventListener('click', () => {
+  rejoinBox.style.top = '-260px';
+});
+rejoinForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (!data.rejoinNickname || !data.rejoinPin) {
+    alert('Please enter a valid nickname and story pin number');
+  } else {
+    socket.emit('rejoinAfterLogout', data.rejoinPin, data.rejoinNickname, socket.id);
+  }
+});
+rejoinNicknameInput.addEventListener('input', (e) => {
+  data.rejoinNickname = e.target.value;
+  console.log(data.rejoinNickname);
+});
+rejoinPinInput.addEventListener('input', (e) => {
+  data.rejoinPin = e.target.value;
+  console.log(data.rejoinPin);
+});
+
 socket.on('notExist', () => {
   alert("That game doesn't exist. Please try again. 😭");
   joinButton.style.display = 'initial';
 });
 socket.on('pinOK', (nickname, hostId) => {
+  console.log('PIN ACCEPTED');
   data.nickname = nickname;
   data.hostId = hostId;
-  console.log('Yay! it worked! Your nickname is ' + nickname);
   nicknameDisplay.innerText = `Your username is: ${nickname}`;
   joinButton.style.display = 'none';
   pinInput.style.display = 'none';
+});
+socket.on('joinedStartedGame', (nickname, hostId) => {
+  console.log('YOOOOOOOOOO STARTED GAME');
+  data.nickname = nickname;
+  data.hostId = hostId;
+  nicknameDisplay.innerText = `Your username is: ${nickname}`;
+  joinButton.style.display = 'none';
+  pinInput.style.display = 'none';
+  writingToolsButt.style.display = 'initial';
+  storyInput.style.display = 'initial';
+  storyInput.focus();
+  controlButts.style.display = 'flex';
+  controlButts.style.flexDirection = 'column';
 });
 socket.on('retrieveStory', () => {
   socket.emit('turnInStory', socket.id, data.story, data.gamePin, data.hostId);
@@ -107,6 +158,18 @@ socket.on('startWriting', () => {
 });
 socket.on('retrieveStoryProgress', () => {
   socket.emit('sendStoryProgressToHost', socket.id, data.story, data.gamePin);
+});
+socket.on('relogin', (pin, nickname, playerId, hostId) => {
+  console.log('Yay I logged back in');
+  data.nickname = nickname;
+  data.playerId = playerId;
+  data.gamePin = pin;
+  data.hostId = hostId;
+  data.rejoinNickname = null;
+  data.rejoinPin = null;
+  nicknameDisplay.innerText = `Your username is: ${nickname}`;
+  joinButton.style.display = 'none';
+  pinInput.style.display = 'none';
 });
 
 document.addEventListener('click', (e) => {

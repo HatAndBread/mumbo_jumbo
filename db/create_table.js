@@ -8,7 +8,7 @@ function createTable() {
       /*sql*/ `
       CREATE TABLE IF NOT EXISTS active_games(
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      pin TEXT NOT NULL, date TEXT NOT NULL, host_id TEXT NOT NULL)`,
+      pin TEXT NOT NULL, date TEXT NOT NULL, host_id TEXT NOT NULL, started BOOLEAN NOT NULL)`,
       []
     );
     db.run(

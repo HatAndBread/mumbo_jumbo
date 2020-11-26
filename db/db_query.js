@@ -34,6 +34,65 @@ const getDb = (sql, params, callback) => {
   });
 };
 
+const checkIfGameStarted = (pin) => {
+  return new Promise((resolve, reject) => {
+    const db = new sqlite.Database('./.data/games.rb');
+    try {
+      db.get(/*sql*/ `SELECT started FROM active_games WHERE pin = ?`, [pin], function (err, row) {
+        if (row) {
+          resolve(row);
+        } else {
+          resolve(false);
+        }
+      });
+      db.close();
+    } catch (err) {
+      reject(err);
+      db.close();
+    }
+  });
+};
+
+const rejoin = (pin, nickname, playerId) => {
+  return new Promise(function (resolve, reject) {
+    const db = new sqlite.Database('./.data/games.db');
+    try {
+      db.serialize(function () {
+        db.run(
+          /*sql*/ `UPDATE players
+          SET socket_id = ?
+          WHERE game_pin = ?
+          AND name = ?`,
+          [playerId, pin, nickname],
+          function (err) {
+            if (err || !this.changes) {
+              console.log(err);
+              resolve(false);
+            }
+          }
+        );
+        db.run(
+          /*sql*/ `UPDATE stories
+          SET current_writer = ?
+          WHERE author = ?
+          AND pin = ?`,
+          [playerId, nickname, pin],
+          function (err) {
+            if (err) {
+              console.log(err);
+            }
+            resolve(true);
+          }
+        );
+      });
+      db.close();
+    } catch (err) {
+      console.log(err);
+      reject(false);
+    }
+  });
+};
+
 const getHostId = async (gamePin) => {
   const db = new sqlite.Database('./.data/games.db');
   const hostId = await new Promise((resolve, reject) => {
@@ -69,4 +128,12 @@ const getPinFromUserId = async (id) => {
   return pin;
 };
 
-module.exports = { run: runDb, all: allDb, get: getDb, getHostId: getHostId, getPinFromUserId: getPinFromUserId };
+module.exports = {
+  run: runDb,
+  all: allDb,
+  get: getDb,
+  getHostId: getHostId,
+  getPinFromUserId: getPinFromUserId,
+  rejoin: rejoin,
+  checkIfGameStarted: checkIfGameStarted
+};
