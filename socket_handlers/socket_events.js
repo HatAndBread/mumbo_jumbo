@@ -5,6 +5,7 @@ const getHostId = require('../db/db_query').getHostId;
 const rejoin = require('../db/db_query').rejoin;
 const getPinFromUserId = require('../db/db_query').getPinFromUserId;
 const checkIfGameStarted = require('../db/db_query').checkIfGameStarted;
+const getPlayersStory = require('../db/db_query').getPlayersStory;
 
 const socketEvents = (io) => {
   io.on('connection', (socket) => {
@@ -38,6 +39,10 @@ const socketEvents = (io) => {
       run(/*sql*/ `UPDATE stories SET story = ? WHERE pin = ? AND current_writer = ?`, [story, gamePin, id]);
       io.to(hostId).emit('storySubmit', { id: id, story: story });
     });
+    socket.on('updateMyStory', (story, id, pin) => {
+      run(/*sql*/ `UPDATE stories SET story = ? WHERE pin = ? AND current_writer = ?`, [story, pin, id]);
+      console.log('UPdating story!');
+    });
     socket.on('distributeStories', (players, gamePin) => {
       console.log('new story distribution!', players[0].story);
       players.forEach((player) => {
@@ -52,13 +57,13 @@ const socketEvents = (io) => {
     socket.on('startingGame', (pin, players) => {
       console.log('YO THESE ARE THE PLAYERS: ' + players);
       console.log('PIN', pin);
-      players.forEach((player) => {
-        run(
-          /*sql*/ `INSERT INTO stories (pin, story,current_writer, author)
-         VALUES(?,?,?,?)`,
-          [pin, player.story, player.id, player.nickname]
-        );
-      });
+      // players.forEach((player) => {
+      //   run(
+      //     /*sql*/ `INSERT INTO stories (pin, story,current_writer, author, date)
+      //    VALUES(?,?,?,?,?)`,
+      //     [pin, player.story, player.id, player.nickname, Date.now()]
+      //   );
+      // });
       socket.to(pin).emit('startWriting');
       run(/*sql*/ `UPDATE active_games SET started = ? WHERE pin = ?`, [true, pin]);
     });
@@ -81,9 +86,11 @@ const socketEvents = (io) => {
         socket.join(pin);
         console.log('SUCCESSFULLY ADDED BACK TO GAME!!!');
         let gameStarted = await checkIfGameStarted(pin);
+        console.log('GAme started type: ' + typeof gameStarted, 'Game started value: ' + gameStarted);
         io.to(hostId).emit('relogin', nickname, playerId);
+        const myStory = await getPlayersStory(playerId);
         gameStarted
-          ? io.to(playerId).emit('reloginStarted', pin, nickname, playerId, hostId)
+          ? io.to(playerId).emit('reloginStarted', pin, nickname, playerId, hostId, myStory)
           : io.to(playerId).emit('relogin', pin, nickname, playerId, hostId);
       } else {
         io.to(playerId).emit('errorRelogin');

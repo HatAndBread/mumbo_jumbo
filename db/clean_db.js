@@ -14,6 +14,14 @@ const cleanDb = () => {
         err && console.log(err);
         console.log(`Cleaned ${this.changes} old games from the database`);
       });
+      db.run(/*sql*/ `DELETE FROM players WHERE date < ?`, [Date.now() - 1000 * 60 * 60 * 24], function (err) {
+        err && console.log(err);
+        console.log(`Cleaned ${this.changes} old players from the database`);
+      });
+      db.run(/*sql*/ `DELETE FROM stories WHERE date < ?`, [Date.now() - 1000 * 60 * 60 * 24], function (err) {
+        err && console.log(err);
+        console.log(`Cleaned ${this.changes} old stories from the database`);
+      });
       db.close();
     }, 100000);
   });

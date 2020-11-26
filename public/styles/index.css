@@ -219,6 +219,8 @@ main {
   margin: 8px;
   padding: 8px;
   border-radius: 8px;
+  box-shadow: 6px 4px 4px #4c67c9;
+  color: snow;
 }
 
 @media only screen and (max-width: 600px) {

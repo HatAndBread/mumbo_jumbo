@@ -7,12 +7,18 @@ const handlePin = async (socket, io, pin, id) => {
     if (!row.length) {
       io.to(id).emit('notExist');
     } else {
-      dbQ.run(/*sql*/ `INSERT INTO players(game_pin, socket_id, host, name)VALUES(?,?,?,?)`, [
+      dbQ.run(/*sql*/ `INSERT INTO players(game_pin, socket_id, host, name, date)VALUES(?,?,?,?,?)`, [
         pin,
         id,
         false,
-        nickname
+        nickname,
+        Date.now()
       ]);
+      dbQ.run(
+        /*sql*/ `INSERT INTO stories (pin, story,current_writer, author, date)
+         VALUES(?,?,?,?,?)`,
+        [pin, '', id, nickname, Date.now()]
+      );
       let gameStarted = row[0].started;
       console.log('GAME STARTED RESULT: ', gameStarted);
       const hostId = await dbQ.getHostId(pin);

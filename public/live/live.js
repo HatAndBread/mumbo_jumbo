@@ -37,7 +37,8 @@ const data = {
   nickname: '',
   hostId: null,
   rejoinNickname: null,
-  rejoinPin: null
+  rejoinPin: null,
+  updater: 0
 };
 
 const getWord = async (type) => {
@@ -78,8 +79,13 @@ pinInput.addEventListener('input', (e) => {
   data.gamePin = e.target.value;
 });
 storyInput.addEventListener('input', (e) => {
+  data.updater += 1;
   data.story = e.target.value;
   console.log(data.story);
+  if (data.updater >= 10) {
+    socket.emit('updateMyStory', data.story, socket.id, data.gamePin);
+    data.updater = 0;
+  }
 });
 closeButt.addEventListener('click', () => {
   controlButts.style.right = '-250px';
@@ -174,10 +180,12 @@ const onRelogin = (pin, nickname, playerId, hostId) => {
 socket.on('relogin', (pin, nickname, playerId, hostId) => {
   onRelogin(pin, nickname, playerId, hostId);
 });
-socket.on('reloginStarted', (pin, nickname, playerId, hostId) => {
+socket.on('reloginStarted', (pin, nickname, playerId, hostId, story) => {
   onRelogin(pin, nickname, playerId, hostId);
   writingToolsButt.style.display = 'initial';
   storyInput.style.display = 'initial';
+  data.story = story;
+  storyInput.innerText = story;
   storyInput.focus();
   controlButts.style.display = 'flex';
   controlButts.style.flexDirection = 'column';

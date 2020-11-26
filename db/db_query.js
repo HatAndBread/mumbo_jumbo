@@ -39,7 +39,7 @@ const checkIfGameStarted = (pin) => {
     const db = new sqlite.Database('./.data/games.db');
     try {
       db.get(/*sql*/ `SELECT started FROM active_games WHERE pin = ?`, [pin], (err, row) => {
-        if (row) {
+        if (row.started) {
           resolve(true);
         } else {
           resolve(false);
@@ -93,6 +93,27 @@ const rejoin = (pin, nickname, playerId) => {
   });
 };
 
+const getPlayersStory = (id) => {
+  return new Promise((resolve, reject) => {
+    const db = new sqlite.Database('./.data/games.db');
+    try {
+      db.get(/*sql*/ `SELECT story FROM stories WHERE current_writer = ?`, [id], function (err, row) {
+        err && reject(err);
+        if (row) {
+          resolve(row.story);
+        } else {
+          resolve('');
+        }
+      });
+      db.close();
+    } catch (err) {
+      console.log(err);
+      reject(false);
+      db.close();
+    }
+  });
+};
+
 const getHostId = async (gamePin) => {
   const db = new sqlite.Database('./.data/games.db');
   const hostId = await new Promise((resolve, reject) => {
@@ -135,5 +156,6 @@ module.exports = {
   getHostId: getHostId,
   getPinFromUserId: getPinFromUserId,
   rejoin: rejoin,
-  checkIfGameStarted: checkIfGameStarted
+  checkIfGameStarted: checkIfGameStarted,
+  getPlayersStory: getPlayersStory
 };

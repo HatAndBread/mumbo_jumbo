@@ -19,6 +19,7 @@ function createTable() {
         socket_id TEXT NOT NULL,
         host BOOLEAN NOT NULL,
         name TEXT,
+        date TEXT NOT NULL,
         FOREIGN KEY (game_pin)
         REFERENCES active_games (pin)
         )`,
@@ -33,6 +34,7 @@ function createTable() {
       story TEXT,
       current_writer TEXT NOT NULL,
       author TEXT NOT NULL,
+      date TEXT NOT NULL,
       FOREIGN KEY (pin)
       REFERENCES active_games (pin)
       )`);
