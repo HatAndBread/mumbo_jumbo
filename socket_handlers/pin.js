@@ -13,7 +13,7 @@ const handlePin = async (socket, io, pin, id) => {
         false,
         nickname
       ]);
-      let gameStarted = await dbQ.checkIfGameStarted(pin);
+      let gameStarted = row[0].started;
       console.log('GAME STARTED RESULT: ', gameStarted);
       const hostId = await dbQ.getHostId(pin);
       socket.join(pin);

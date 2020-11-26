@@ -31,6 +31,7 @@ const gameData = {
   rejoinPin: '',
   rejoinNickname: '',
   rejoinButtGarbage: [],
+  nicknameListButtons: [],
   swapStories: function () {
     this.storiesRetrieved = 0;
     let first;
@@ -96,6 +97,7 @@ socket.on('gameCreated', (pin) => {
   pinDisplay.innerText = pin;
   gamePin = pin;
 });
+
 socket.on('newPlayer', (id, nickname) => {
   console.log('New player! ', id, nickname);
   gameData.players.push({ nickname: nickname, id: id, story: null });
@@ -107,6 +109,7 @@ socket.on('newPlayer', (id, nickname) => {
     socket.emit('retrieveStoryProgress', id);
   });
   item.id = id;
+  gameData.nicknameListButtons.push(item);
   nicknameList.appendChild(item);
   console.log(gameData.players);
 });
@@ -167,6 +170,7 @@ socket.on('playerDisconnected', (name, id) => {
 socket.on('relogin', (nickname, playerId) => {
   console.log(`${nickname} has logged back in with id ${playerId}`);
   for (let i = 0; i < gameData.players.length; i++) {
+    let oldId = gameData.players[i].id;
     if (gameData.players[i].nickname === nickname) {
       for (let j = 0; j < gameData.rejoinButtGarbage.length; j++) {
         if (gameData.rejoinButtGarbage[j].id === nickname) {
@@ -177,13 +181,28 @@ socket.on('relogin', (nickname, playerId) => {
         }
       }
       for (let j = 0; j < gameData.disconnectedPlayerIds.length; j++) {
-        if (gameData.disconnectedPlayerIds[j] === gameData.players[i].id) {
+        if (gameData.disconnectedPlayerIds[j] === oldId) {
           gameData.disconnectedPlayerIds.splice(j, 1);
           break;
         }
       }
+      gameData.nicknameListButtons.map((el, index, arr) => {
+        if (el.id === oldId) {
+          el.parentNode.removeChild(el);
+          arr.splice(index, 1);
+        }
+      });
       gameData.players[i].id = playerId;
       gameData.disconnectedPlayerIds.length === 0 ? (disconnectBox.style.right = '-300px') : null;
+      const item = document.createElement('li');
+      const node = document.createTextNode(`⭐️${nickname}`);
+      item.appendChild(node);
+      item.addEventListener('click', () => {
+        socket.emit('retrieveStoryProgress', playerId);
+      });
+      item.id = playerId;
+      gameData.nicknameListButtons.push(item);
+      nicknameList.appendChild(item);
       console.log(gameData);
       break;
     }

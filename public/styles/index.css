@@ -9,8 +9,9 @@
 body {
   font-family: 'Varela Round', sans-serif;
   box-sizing: border-box;
-  background-color: #c5dcf9;
   color: #05061a;
+  min-height: 100vh;
+  background: linear-gradient(45deg, #c7c9cc, #bec8fa);
 }
 
 a {
@@ -44,6 +45,7 @@ button:hover {
 
 ul {
   list-style: none;
+  text-align: left;
 }
 
 .main_title {
@@ -197,7 +199,6 @@ main {
   width: 300px;
   height: 100vh;
   background-color: #2d325d;
-  opacity: 0.9;
   color: snow;
   font-size: large;
   padding: 15px;

@@ -159,7 +159,7 @@ socket.on('startWriting', () => {
 socket.on('retrieveStoryProgress', () => {
   socket.emit('sendStoryProgressToHost', socket.id, data.story, data.gamePin);
 });
-socket.on('relogin', (pin, nickname, playerId, hostId) => {
+const onRelogin = (pin, nickname, playerId, hostId) => {
   console.log('Yay I logged back in');
   data.nickname = nickname;
   data.playerId = playerId;
@@ -170,6 +170,20 @@ socket.on('relogin', (pin, nickname, playerId, hostId) => {
   nicknameDisplay.innerText = `Your username is: ${nickname}`;
   joinButton.style.display = 'none';
   pinInput.style.display = 'none';
+};
+socket.on('relogin', (pin, nickname, playerId, hostId) => {
+  onRelogin(pin, nickname, playerId, hostId);
+});
+socket.on('reloginStarted', (pin, nickname, playerId, hostId) => {
+  onRelogin(pin, nickname, playerId, hostId);
+  writingToolsButt.style.display = 'initial';
+  storyInput.style.display = 'initial';
+  storyInput.focus();
+  controlButts.style.display = 'flex';
+  controlButts.style.flexDirection = 'column';
+});
+socket.on('errorRelogin', () => {
+  alert('Unable to log in. Please try again. 🌈');
 });
 
 document.addEventListener('click', (e) => {

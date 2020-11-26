@@ -80,10 +80,13 @@ const socketEvents = (io) => {
         let hostId = await getHostId(pin);
         socket.join(pin);
         console.log('SUCCESSFULLY ADDED BACK TO GAME!!!');
+        let gameStarted = await checkIfGameStarted(pin);
         io.to(hostId).emit('relogin', nickname, playerId);
-        io.to(playerId).emit('relogin', pin, nickname, playerId, hostId);
+        gameStarted
+          ? io.to(playerId).emit('reloginStarted', pin, nickname, playerId, hostId)
+          : io.to(playerId).emit('relogin', pin, nickname, playerId, hostId);
       } else {
-        console.log('ERROR getting back into game');
+        io.to(playerId).emit('errorRelogin');
       }
     });
   });

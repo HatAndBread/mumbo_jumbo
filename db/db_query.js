@@ -36,11 +36,11 @@ const getDb = (sql, params, callback) => {
 
 const checkIfGameStarted = (pin) => {
   return new Promise((resolve, reject) => {
-    const db = new sqlite.Database('./.data/games.rb');
+    const db = new sqlite.Database('./.data/games.db');
     try {
-      db.get(/*sql*/ `SELECT started FROM active_games WHERE pin = ?`, [pin], function (err, row) {
+      db.get(/*sql*/ `SELECT started FROM active_games WHERE pin = ?`, [pin], (err, row) => {
         if (row) {
-          resolve(row);
+          resolve(true);
         } else {
           resolve(false);
         }
