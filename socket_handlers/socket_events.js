@@ -97,9 +97,10 @@ const socketEvents = (io) => {
       }
     });
     socket.on('keepAlive', (who) => {
-      console.log('keep alive', who);
       if (who === 'host') {
-        console.log(socket.id);
+        io.to(socket.id).emit('keepAliveReceived');
+      }
+      if (who === 'player') {
         io.to(socket.id).emit('keepAliveReceived');
       }
     });

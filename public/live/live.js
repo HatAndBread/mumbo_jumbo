@@ -193,6 +193,9 @@ socket.on('reloginStarted', (pin, nickname, playerId, hostId, story) => {
 socket.on('errorRelogin', () => {
   alert('Unable to log in. Please try again. 🌈');
 });
+socket.on('keepAliveReceived', () => {
+  console.log('staying alive');
+});
 
 document.addEventListener('click', (e) => {
   if (e.target.value !== 'tools') {
