@@ -207,3 +207,8 @@ document.addEventListener('click', (e) => {
 setInterval(() => {
   socket.emit('keepAlive', 'player');
 }, 2000);
+
+window.addEventListener('beforeunload', (e) => {
+  e.preventDefault();
+  e.returnValue = 'Are you sure you want to leave? 😅';
+});
