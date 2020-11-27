@@ -96,6 +96,13 @@ const socketEvents = (io) => {
         io.to(playerId).emit('errorRelogin');
       }
     });
+    socket.on('keepAlive', (who) => {
+      console.log('keep alive', who);
+      if (who === 'host') {
+        console.log(socket.id);
+        io.to(socket.id).emit('keepAliveReceived');
+      }
+    });
   });
 };
 

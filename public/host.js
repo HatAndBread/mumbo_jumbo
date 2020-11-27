@@ -208,3 +208,10 @@ socket.on('relogin', (nickname, playerId) => {
     }
   }
 });
+socket.on('keepAliveReceived', () => {
+  console.log('staying alive');
+});
+
+setInterval(() => {
+  socket.emit('keepAlive', 'host');
+}, 2000);

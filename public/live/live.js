@@ -200,3 +200,7 @@ document.addEventListener('click', (e) => {
     storyInput.focus();
   }
 });
+
+setInterval(() => {
+  socket.emit('keepAlive', 'player');
+}, 2000);
