@@ -16,7 +16,7 @@ const disconnectBox = document.querySelector('.disconnect_box');
 startButt.style.display = 'none';
 shuffleButt.style.display = 'none';
 const joinButt = document.querySelector('.join_butt');
-let userPin;
+
 let gamePin;
 
 document.addEventListener('click', (e) => {
@@ -210,6 +210,9 @@ socket.on('relogin', (nickname, playerId) => {
 });
 socket.on('keepAliveReceived', () => {
   console.log('staying alive');
+});
+socket.on('newHostId', (id) => {
+  console.log('I got a new id! ' + id);
 });
 
 setInterval(() => {

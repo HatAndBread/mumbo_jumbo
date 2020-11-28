@@ -106,9 +106,14 @@ const socketEvents = (io) => {
         if (who === 'host') {
           run(/*sql*/ `UPDATE active_games SET host_id = ? WHERE pin = ?`, [socket.id, pin]);
           run(/*sql*/ `UPDATE players SET socket_id = ? WHERE game_pin = ? AND host = ?`, [socket.id, pin, true]);
+          io.in(pin).emit('newHostId', socket.id);
+          setTimeout(() => {
+            io.in(pin).emit('newHostId', socket.id);
+          }, 2001);
         } else {
           run(/*sql*/ `UPDATE players SET socket_id = ? WHERE game_pin = ? AND name = ?`, [socket.id, pin, nickname]);
           run(/*sql*/ `UPDATE stories SET current_writer = ? WHERE pin = ? AND author = ?`, [socket.id, pin, nickname]);
+          // TODO SEND NEW PLAYER ID TO HOST
         }
       }
       io.to(socket.id).emit('keepAliveReceived');
