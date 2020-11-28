@@ -205,7 +205,9 @@ document.addEventListener('click', (e) => {
 });
 
 setInterval(() => {
-  socket.emit('keepAlive', 'player');
+  if (data.hostId) {
+    socket.emit('keepAlive', 'player', data.gamePin, data.nickname);
+  }
 }, 2000);
 
 window.addEventListener('beforeunload', (e) => {

@@ -213,5 +213,5 @@ socket.on('keepAliveReceived', () => {
 });
 
 setInterval(() => {
-  socket.emit('keepAlive', 'host');
+  socket.emit('keepAlive', 'host', gamePin, null);
 }, 2000);

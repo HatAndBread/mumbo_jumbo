@@ -33,6 +33,7 @@ const socketEvents = (io) => {
       hostGamePin(socket, io, id);
     });
     socket.on('shuffle', (pin) => {
+      socket.join(pin);
       socket.to(pin).emit('retrieveStory');
     });
     socket.on('turnInStory', async (id, story, gamePin, hostId) => {
@@ -96,13 +97,21 @@ const socketEvents = (io) => {
         io.to(playerId).emit('errorRelogin');
       }
     });
-    socket.on('keepAlive', (who) => {
-      if (who === 'host') {
-        io.to(socket.id).emit('keepAliveReceived');
+    socket.on('keepAlive', (who, pin, nickname) => {
+      console.log('PIN: ', pin);
+      console.log(socket.rooms);
+      console.log(socket.rooms.has(pin));
+      if (!socket.rooms.has(pin) && pin) {
+        socket.join(pin);
+        if (who === 'host') {
+          run(/*sql*/ `UPDATE active_games SET host_id = ? WHERE pin = ?`, [socket.id, pin]);
+          run(/*sql*/ `UPDATE players SET socket_id = ? WHERE game_pin = ? AND host = ?`, [socket.id, pin, true]);
+        } else {
+          run(/*sql*/ `UPDATE players SET socket_id = ? WHERE game_pin = ? AND name = ?`, [socket.id, pin, nickname]);
+          run(/*sql*/ `UPDATE stories SET current_writer = ? WHERE pin = ? AND author = ?`, [socket.id, pin, nickname]);
+        }
       }
-      if (who === 'player') {
-        io.to(socket.id).emit('keepAliveReceived');
-      }
+      io.to(socket.id).emit('keepAliveReceived');
     });
   });
 };
